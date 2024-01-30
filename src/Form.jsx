@@ -54,7 +54,7 @@ export default function Form() {
         <legend className="text-lg font-semibold mb-4">Harvest Details</legend>
         <div className="flex flex-col">
           <div className="flex flex-col">
-            <label htmlFor="date">Date</label>
+            <label htmlFor="date">Date---</label>
             <input type="date" id="date" name="date" className="w-1/3 border-solid border-2 border-black"  />
           </div>
           <div className="flex flex-col">
