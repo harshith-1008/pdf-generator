@@ -1,121 +1,200 @@
 import React from "react";
-import jsPDF from 'jspdf';
+import html2pdf from "html2pdf.js";
 
 export default function Form() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
-        generatePDF(data);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Get the HTML element to be converted to PDF
+    const element = document.getElementById("content");
+
+    // Configure the PDF options
+    const opt = {
+      margin: 0,
+      filename: "myfile.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
 
-    const generatePDF = (data) => {
-      const doc = new jsPDF();
-      let y = 20;
-  
-      // Add title
-      doc.setFontSize(20);
-      doc.text("Harvest Details", 105, y, { align: "center" });
-  
-      // Reset y position for content
-      y = 40;
-  
-      // Add form data to PDF
-      Object.entries(data).forEach(([key, value]) => {
-          doc.setFontSize(12);
-          doc.text(20, y, `${key}: ${value}`);
-          y += 10;
-      });
-  
-      // Save PDF
-      doc.save("harvest_details.pdf");
-        // Save PDF as base64-encoded data URL
-        // const pdfBase64 = doc.output('dataurlstring');
+    // Call the html2pdf library to convert HTML to PDF
+    html2pdf().from(element).set(opt).save();
+  };
 
-        // // Create share button for WhatsApp
-        // const shareWhatsApp = () => {
-        //     const message = 'Check out my form details:';
-        //     const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(message)}&media=${encodeURIComponent(pdfBase64)}`;
-        //     console.log('WhatsApp URL:', whatsappUrl);
-        //     window.open(whatsappUrl);
-        // };
+  return (
+    <div
+      id="content"
+      className="flex flex-col items-center justify-center overflow-scroll flex-nowrap whitespace-nowrap w-full overflow-x-scroll scrollbar-hidden no-scrollbar pl-64 md:pl-0"
+    >
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center justify-center"
+      >
+        <fieldset>
+          <legend className="text-lg font-semibold mb-4">
+            Harvest Details
+          </legend>
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-row space-x-2 items-center">
+              <label htmlFor="date">Date:</label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                className="w-1/3 border-solid border-2 border-black"
+              />
+            </div>
+            <div className="flex flex-row space-x-2 items-center">
+              <label htmlFor="FarmerName">Farmer Name:</label>
+              <input
+                type="text"
+                id="FarmerName"
+                name="FarmerName"
+                className="w-1/3 border-solid border-2 border-black"
+              />
+            </div>
+            <div className="flex flex-row space-x-2 items-center">
+              <label htmlFor="AgentName">Agent Name:</label>
+              <input
+                type="text"
+                id="AgentName"
+                name="AgentName"
+                className="w-1/3 border-solid border-2 border-black"
+              />
+            </div>
+            <table className="border-2 border-black border-solid  text-center">
+              <thead className="">
+                <tr>
+                  <th>SL No.</th>
+                  <th>PARTICULARS</th>
+                  <th>COUNT</th>
+                  <th>KGS.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="">
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    1
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    Vannamei
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    <input type="number"></input>
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    <input type="number"></input>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    2
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    Vannamei-PD
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    <input type="number"></input>
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    <input type="number"></input>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    3
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    Vannamei-Sl
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    <input type="number"></input>
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    <input type="number"></input>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    4
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    Vannamei-Vibrio
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    <input type="number"></input>
+                  </td>
+                  <td className="p-1 md:p-6 border-2 border-black border-solid  text-center">
+                    <input type="number"></input>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="flex flex-row space-x-2 items-center">
+              <label htmlFor="VehicleNo">Vehicle No:</label>
+              <input
+                type="text"
+                id="VehicleNo"
+                name="VehicleNo"
+                className="w-1/3 border-solid border-2 border-black"
+              />
+            </div>
+            <div className="flex flex-row space-x-2 items-center">
+              <label htmlFor="Boxes">Material boxed:</label>
+              <input
+                type="number"
+                id="Boxes"
+                name="Boxes"
+                className="w-1/3 border-solid border-2 border-black"
+              />
+            </div>
+            <div className="flex flex-row space-x-2 items-center">
+              <label htmlFor="Ice">Ice boxes:</label>
+              <input
+                type="number"
+                id="Ice"
+                name="Ice"
+                className="w-1/3 border-solid border-2 border-black"
+              />
+            </div>
+            <div className="flex flex-row space-x-2 items-center">
+              <label htmlFor="Area">Area:</label>
+              <input
+                type="text"
+                id="Area"
+                name="Area"
+                className="w-1/3 border-solid border-2 border-black"
+              />
+            </div>
+            <div className="flex flex-row space-x-2 items-center">
+              <label htmlFor="Area">City:</label>
+              <input
+                type="text"
+                id="Area"
+                name="Area"
+                className="w-1/3 border-solid border-2 border-black"
+              />
+            </div>
 
-        // // Call shareWhatsApp function
-        // shareWhatsApp();
-    };
-
-
-    return(
-    <form onSubmit={handleSubmit} className="p-10 bg-yellow-50">
-      <fieldset>
-        <legend className="text-lg font-semibold mb-4">Harvest Details</legend>
-        <div className="flex flex-col">
-          <div className="flex flex-col">
-            <label htmlFor="date">Date---</label>
-            <input type="date" id="date" name="date" className="w-1/3 border-solid border-2 border-black"  />
+            <div className="flex flex-row space-x-2 items-center">
+              <label htmlFor="HarvestType">Type of Harvest</label>
+              <input
+                type="text"
+                id="HarvestType"
+                name="HarvestType"
+                className="w-1/3 border-solid border-2 border-black"
+              />
+            </div>
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="field">Field</label>
-            <input type="text" id="field" name="field" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="area">Area</label>
-            <input type="text" id="area" name="area" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="agentName">Agent Name</label>
-            <input type="text" id="agentName" name="agentName" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="supervisors">Supervisors</label>
-            <input type="text" id="supervisors" name="supervisors" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="farmerName">Farmer Name</label>
-            <input type="text" id="farmerName" name="farmerName" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="harvestType">Type of Harvest</label>
-            <input type="text" id="harvestType" name="harvestType" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="countTable">Count-table</label>
-            <input type="number" id="countTable" name="countTable" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="kgs">Kgs</label>
-            <input type="number" id="kgs" nmae="kgs" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="rate">Rate (per kg)</label>
-            <input type="number" id="rate" name="rate" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="totalAmount">Total Amount</label>
-            <input type="number" id="totalAmount" name="totalAmount" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="vehicleNo">Vehicle No</label>
-            <input type="text" id="vehicleNo" name="vehicleNo" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="boxes">No of Boxes</label>
-            <input type="number" id="boxes" name="boxes" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="ice">ICE</label>
-            <input type="number" id="ice" name="ice" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="boys">Boys</label>
-            <input type="number" id="boys" name="boyes" className="w-1/3 border-solid border-2 border-black"  />
-          </div>
-        </div>
-      </fieldset>
-      <button type="submit" className="mt-10 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600">Submit</button>
-    </form>
+        </fieldset>
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className="mt-10 border-2 border-black border-solid rounded text-2xl px-4 mb-5"
+        >
+          Download Pdf
+        </button>
+      </form>
+    </div>
   );
 }
